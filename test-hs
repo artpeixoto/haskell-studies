@@ -1,0 +1,14 @@
+import Data.Monoid
+{--
+class Monoid (m a) => Monoider m where
+	expandMonoider :: [a]
+		       -> m a 
+		       -> [m a]
+--}
+data Tree a  = EmptyNode
+	     | NodeNull	(Tree a) (Tree a) 
+	     | Node a 	(Tree a) (Tree a)
+
+
+( <| ) = ( $ )
+( |> ) = \x -> \y -> (y x)
