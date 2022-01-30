@@ -8,36 +8,26 @@ import Data.Char
 type Name 		= String
 type Literal	= String
 data TMLItem 	= TMLLit  Literal 
-						| TMLFlag Name 
-						| TMLAttr Name 	Literal
-						| TMLTag  Name 	[TMLItem]
+							| TMLFlag Name 
+							| TMLAttr Name 	Literal
+							| TMLTag  Name 	[TMLItem]
+isAttr (TMLAttr name value) = True 
+isAttr _ = False
 
 
-                                                
-beginsWith word@(x:xs) text@(y:ys)
-  | (length text) < (len word) = False
-  | otherwise 	= (all (\x -> fst x == snd x) $ zip word text)
-
-findAll pattern str = map (beginsWith pattern) (scanr (\x y -> x:y) "" str)
-
+newtype Html = Html TMLItem
+instance Show (Html) where
+	show (Html (TMLTag name items)) = 
+		"<" ++ name ++ " " ++ itemsAttrs ++ ">" ++
+		(foldl (\acc l -> acc ++ "\n\t" ++ l) "") . lines $ restOfItems 
+		where
+			itemsAttrs = foldl1 (++) . map (\x' -> ' ' : (show . Html $ x')) . filter (isAttr) $ items
+			restOfItems = map (
+			) 
 parseHtml :: String
-	  -> TMLItem
+	  			-> TMLItem
 
 parseHtml = undefined
-
-splitAll :: (String -> Bool) 
-         -> String 
-         -> [String]
-splitAll _ ""   =  "" : [] 
-splitAll f xs 	=  fstx ++ (splitAll f tailx) 
-		where
-                  (fstx, sndx) = break f [xs]
-		  (separator, [tailx]) = break (not . f) sndx 
-
-separateCommands 	:: String
-                        -> [String]
-separateCommands 	=  undefined
-
 
 sepIdentation :: [Char] -> [Char]
 sepIdentation (x:xs) =
