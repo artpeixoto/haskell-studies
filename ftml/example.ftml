@@ -1,10 +1,11 @@
 html:	
 	head: 
 		title: 	A pagina do mal;
-		meta:	.charset:utf-8;
+		meta:		.charset: utf-8;
 	body:
 		header: h1: This page is dumb;
-		p:	fuck off
+		p:	
+			fuck off
 			you stupid
 			motherfucker
 		
